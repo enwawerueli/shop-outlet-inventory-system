@@ -1,0 +1,24 @@
+* {
+    border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    -webkit-border-radius: 0 !important;
+}
+a {
+    text-decoration: none;
+}
+.cc-content {
+    width: 50%;
+    margin: auto;
+}
+.cc-cart {
+    position: fixed;
+    z-index: 5;
+    right: 0;
+    top: 50px;
+    margin: 10px;
+}
+.alert-failed, .alert-restricted {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
