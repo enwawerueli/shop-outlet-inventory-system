@@ -4,30 +4,31 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateShoppingcartTable extends Migration
+class CreatePermissionsUsersTable extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
     public function up()
     {
         Schema::defaultStringLength(191);
-        if(!Schema::hasTable('cart.database.table')){
-            Schema::create(config('cart.database.table'), function (Blueprint $table) {
-                $table->increments('id');
+        if (!Schema::hasTable('permission_user')) {
+            Schema::create('permission_user', function(Blueprint $table){
                 $table->integer('user_id')->foreign()->references('id')->on('users')->onDelete('cascade');
-                $table->string('identifier')->unique();
-                $table->string('instance');
-                $table->longText('content');
-                $table->timestamps();
+                $table->integer('permission_id')->foreign()->references('id')->on('permissions')->onDelete('cascade');
             });
         }
     }
+
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
     public function down()
     {
-        Schema::drop(config('cart.database.table'));
+        Schema::dropIfExists('permission_user');
     }
 }

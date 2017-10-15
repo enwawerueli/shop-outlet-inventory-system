@@ -9,8 +9,5 @@
     <div>
         @yield('content')
     </div>
-    <?php Notification::render(); ?>
-    @notifications
-    {{-- {{ Notification::render() }} --}}
 </body>
 </html>

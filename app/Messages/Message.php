@@ -1,18 +1,16 @@
 <?php
-namespace App\Notifications;
+namespace App\Messages;
 
 use Illuminate\Support\Facades\Session;
 
-trait Notification
+trait Message
 {
 
     /**
      * Flush a notification to the session
-     *
      * @param string $status
      * @param string $message
      * @param string $dialog
-     *
      * @return void
      */
     public function notify($status, $message, $dialog='alert')
@@ -24,10 +22,7 @@ trait Notification
 
     /**
      * Flush success notification to the session
-     *
      * @param string $message
-     *
-     * @return void
      */
     public function notifySuccess($message)
     {
@@ -36,9 +31,7 @@ trait Notification
 
     /**
      * Flush error notification to the session
-     *
      * @param string $message
-     *
      * @return void
      */
     public function notifyError($message)

@@ -6,7 +6,7 @@
 </head>
 <body>
     <div>
-        <p>Hello world</p>
+        <p>{{ session('user') }}</p>
     </div>
 </body>
 </html>

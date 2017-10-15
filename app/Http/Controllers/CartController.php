@@ -10,11 +10,15 @@ use App\Models\Stock;
 use App\Models\Sale;
 use App\Models\Cart as CartModel;
 use Gloudemans\Shoppingcart\Facades\Cart;
-use App\Notifications\Notification;
 
 class CartController extends Controller
 {
-    use Notification;
+    public function index(Request $request)
+    {
+        $template = 'store.cart';
+        $carts = CartModel::whereUserId($request->user()->id)->get();
+        return view($template)->with(compact('carts'));
+    }
 
     public function add(Request $request)
     {
@@ -22,13 +26,6 @@ class CartController extends Controller
         $product = Product::find($productId);
         Cart::add(['id'=> $product->id, 'name'=> $product->name, 'qty'=> 1, 'price'=> $product->selling,]);
         return $request->ajax() ? Cart::count() : back();
-    }
-
-    public function show()
-    {
-        $template = 'store.cart';
-        $carts = CartModel::all();
-        return view($template)->with(compact('carts'));
     }
 
     public function update(Request $request, $itemId)
@@ -83,7 +80,7 @@ class CartController extends Controller
     public function save(Request $request)
     {
         $identifier = $request->get('cartIdentifier');
-        Cart::store($identifier);
+        Cart::store($identifier, $request->user());
         $this->notify('success', 'Cart has been saved successfully.');
         return back();
     }

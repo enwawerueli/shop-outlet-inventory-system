@@ -1,14 +1,12 @@
 @extends('layouts.app')
 
 @section('main')
-    <div class="panel panel-default cc-cart">
-        <div class="panel-body">
-            <a href="{{ route('show_cart') }}" class="btn btn-success btn-sm">
-                <span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;
-                Shopping Cart&nbsp;
-                <span class="badge cc-cart-item-count" style="border-radius: 50% !important;">{{ Cart::count() }}</span>
-            </a>
-        </div>
+    <div class="cc-cart">
+        <a href="{{ route('show_cart') }}" class="btn btn-success btn-sm">
+            <span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;
+            Shopping Cart&nbsp;
+            <span class="badge cc-cart-item-count">{{ Cart::count() }}</span>
+        </a>
     </div>
 
     @if (session('notification'))
@@ -16,8 +14,12 @@
             <div class="modal-dialog">
                 <div class="modal-content text-center">
                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
                         @if (session('notification')['status'] == 'success')
                             <h3 class="modal-title" style="color: #008000;"><span class="glyphicon glyphicon-ok-circle"></span>&nbsp;Success!</h3>
+                        @elseif (session('notification')['status'] == 'info')
+                            <h3 class="modal-title" style="color: #31708f;"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;Notice!</h3>
                         @elseif (session('notification')['status'] == 'failed')
                             <h3 class="modal-title" style="color: #B22222;"><span class="glyphicon glyphicon-remove-circle"></span>&nbsp;Failed!</h3>
                         @elseif (session('notification')['status'] == 'warning')
@@ -68,44 +70,45 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                        <li><a href="{{ route('products_index') }}">PRODUCTS</a></li>
+                        <li class="active"><a href="{{ route('products_index') }}">PRODUCTS</a></li>
 
                         <li><a href="{{ route('sales_index') }}">SALES</a></li>
 
-                        <li><a href="">ORDERS</a></li>
+                        {{-- <li><a href="">ORDERS</a></li> --}}
 
                         <li><a href="{{ route('stocks_index') }}">STOCKS</a></li>
+
+                        @if (request()->user()->hasPermission('admin'))
+                            <li><a href="{{ route('manage') }}">MANAGE</a></li>
+                        @endif
                 </ul>
 
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
-                    <!-- Authentication Links -->
-                    @if (Auth::guest())
-                        <li><a href="{{ route('login') }}">Login</a></li>
-                    @else
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <span class="glyphicon glyphicon-user"></span>&nbsp;
-                                {{ Auth::user()->name }}&nbsp;
-                                <span class="glyphicon glyphicon-menu-down"></span>
-                            </a>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <span style="width: 25px; height: 25px;">
+                                <img src="{{ asset('images/avatar.png') }}" class="img-circle" alt="profile image" style="width: inherit; height: inherit;">
+                            </span>&nbsp;
+                            {{ Auth::user()->name }}&nbsp;
+                            <span class="glyphicon glyphicon-menu-down"></span>
+                        </a>
 
-                            <ul class="dropdown-menu" role="menu">
-                                <li>
-                                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                        <span class="glyphicon glyphicon-log-out"></span>&nbsp;
-                                        Logout
-                                    </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <span class="glyphicon glyphicon-log-out"></span>&nbsp;
+                                    Logout
+                                </a>
 
-                                    <form action="{{ route('logout') }}" method="POST" id="logout-form" style="display: none;">
-                                        {{ csrf_field() }}
-                                    </form>
-                                </li>
+                                <form action="{{ route('logout') }}" method="POST" id="logout-form" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
+                            </li>
 
-                                <li><a href="{{ route('manage') }}"><span class="glyphicon glyphicon-cog"></span>&nbsp;Manage</a></li>
-                            </ul>
-                        </li>
-                    @endif
+                            <li><a href="{{ route('user_profile', request()->user()->id) }}"><span class="glyphicon glyphicon-cog"></span>&nbsp;Profile</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>

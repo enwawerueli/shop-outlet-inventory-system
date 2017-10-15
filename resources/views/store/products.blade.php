@@ -6,7 +6,7 @@
 
         <hr>
 
-        <div class="dropdown" style="float: right;">
+        <div class="dropdown" style="float: right; margin-left: 5px;">
             <a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-default btn-sm"><span class="glyphicon glyphicon-filter"></span>&nbsp;Filter&nbsp;<span class="glyphicon glyphicon-menu-down"></span></a>
 
             <ul class="dropdown-menu dropdown-menu-right">
@@ -16,9 +16,11 @@
             </ul>
         </div>
 
-        <div style="float: right;">
-            <a href="{{ route('create_product') }}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New Product</a>
-        </div>
+        @if (request()->user()->hasPermission('create'))
+            <div style="float: right;">
+                <a href="{{ route('create_product') }}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New Product</a>
+            </div>
+        @endif
 
         <hr style="clear: both;">
 
@@ -68,6 +70,7 @@
 
                                             <div class="dropdown-menu dropdown-menu-right" style="width: 600px;">
                                                 <div class="panel-body">
+                                                    <h5><strong>{{ $product->name }}</strong></h5>
                                                     <p class="">{{ $product->description }}</p>
                                                 </div>
                                             </div>
@@ -79,8 +82,9 @@
                                     <div class="btn-group">
                                         <a href="{{ route('add_to_cart').'?product_id='.$product->id }}" class="btn btn-success btn-sm cc-add-to-cart"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Cart</a>
 
-                                        <a href="{{ route('edit_product', $product->id) }}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-edit"></span>&nbsp;Edit</a>
-
+                                        @if (request()->user()->hasPermission('modify'))
+                                            <a href="{{ route('edit_product', $product->id) }}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-edit"></span>&nbsp;Edit</a>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>

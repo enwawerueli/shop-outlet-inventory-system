@@ -6,12 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Category;
 use App\Validators\Validator;
-use App\Notifications\Notification;
 
 class CategoryController extends BaseController
 {
-    use Notification;
-
     /**
      * Display a listing of the resource.
      *

@@ -7,7 +7,7 @@
         <hr>
 
         @if (!$carts->isEmpty())
-            <div class="dropdown" style="float: right;">
+            <div class="dropdown" style="float: right; margin-left: 5px;">
                 <a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-default btn-sm"><span class="glyphicon glyphicon-floppy-open"></span>&nbsp;Restore&nbsp;<span class="glyphicon glyphicon-menu-down"></span></a>
 
                 <ul class="dropdown-menu dropdown-menu-right">
@@ -19,28 +19,34 @@
         @endif
 
         @if (Cart::count())
-            <div class="dropdown" style="float: right;">
-                <a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-default btn-sm"><span class="glyphicon glyphicon-floppy-save"></span>&nbsp;Save&nbsp;<span class="glyphicon glyphicon-menu-down"></a>
+            <a class="btn btn-primary btn-sm" data-toggle="modal" data-target='#save-cart-form' style="float: right;"><span class="glyphicon glyphicon-floppy-save"></span>&nbsp;Save&nbsp;</a>
 
-                <div class="dropdown-menu dropdown-menu-right" style="width: 600px;">
-                    <div class="panel-body">
-                        <h4 class="text-center">Save cart as</h4>
-
-                        <hr>
-
+            <div class="modal fade" id="save-cart-form">
+                <div class="modal-dialog">
+                    <div class="modal-content">
                         <form action="{{ route('save_cart') }}" method="post" class="form-horizontal">
                             {{ csrf_field() }}
 
-                            <div class="form-group">
-                                <label for="cart-identifier" class="col-xs-offset-2 col-xs-2 control-label">Name:</label>
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 
-                                <div class="col-xs-6">
-                                    <input type="text" name="cartIdentifier" id="cart-identifier" class="form-control" required autofocus>
+                                <h4 class="modal-title text-center">Save cart as:</h4>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="cart-identifier" class="col-xs-offset-2 col-xs-2 control-label">Name:</label>
+
+                                    <div class="col-xs-6">
+                                        <input type="text" name="cartIdentifier" id="cart-identifier" class="form-control" required autofocus>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="col-xs-6 col-xs-offset-4">
-                                <button type="submit" class="btn btn-primary btn-sm"></span>Save</button>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary btn-sm">Save</button>
+
+                                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
                             </div>
                         </form>
                     </div>
@@ -139,8 +145,6 @@
                 <a href="{{ route('checkout') }}" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-usd"></span>&nbsp;Checkout</a>
 
                 <a href="{{ route('empty_cart') }}" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span>&nbsp;Clear</a>
-
-                <a href="{{ route('print_receipt') }}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-print"></span>&nbsp;Print</a>
             </div>
         @endif
     </div>

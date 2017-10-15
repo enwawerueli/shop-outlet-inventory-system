@@ -44,9 +44,11 @@
                         <td>{{ number_format($product->stock->value, 2) }}</td>
 
                         <td>
-                            <div class="btn-group">
-                                <a href="{{ route('edit_stock', $product->id) }}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-edit"></span>&nbsp;Edit</a>
-                            </div>
+                            @if (request()->user()->hasPermission('modify'))
+                                <div class="btn-group">
+                                    <a href="{{ route('edit_stock', $product->id) }}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-edit"></span>&nbsp;Edit</a>
+                                </div>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
@@ -75,8 +77,10 @@
 
     <hr>
 
-    <div class="text-center">
-        <a href="{{ route('print_stocks') }}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-print"></span>&nbsp;Print</a>
-    </div>
+    @if (request()->user()->hasPermission('publish'))
+        <div class="text-center">
+            <a href="{{ route('print_stocks') }}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-print"></span>&nbsp;Print</a>
+        </div>
+    @endif
 </div>
 @endsection

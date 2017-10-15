@@ -6,12 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Stock;
 use App\Validators\Validator;
-use App\Notifications\Notification;
 
 class StockController extends BaseController
 {
-    use Notification;
-
     /**
      * Display a listing of the resource.
      *

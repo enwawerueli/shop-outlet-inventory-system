@@ -6,49 +6,53 @@
 
     <hr>
 
-    <div class="dropdown" style="float: right;">
-        <a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-default btn-sm">
-            <span class="glyphicon glyphicon-calendar"></span>
-            &nbsp;History&nbsp;
-            <span class="glyphicon glyphicon-menu-down"></span>
-        </a>
+    <div class="btn-group" style="float: right;">
+        <a href="{{ route('sales_index') }}" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-time"></span>&nbsp;Today</a>
 
-        <div class="dropdown-menu dropdown-menu-right" style="width: 600px;">
-            <div class="panel-body">
-                <h4 class="text-center">Enter reporting period</h4>
+        <a class="btn btn-primary btn-sm" data-toggle="modal" data-target='#get-sales-form'><span class="glyphicon glyphicon-calendar"></span>&nbsp;History&nbsp;</a>
+    </div>
 
-                <hr>
+    <hr style="clear: both;">
 
+    <div class="modal fade" id="get-sales-form">
+        <div class="modal-dialog">
+            <div class="modal-content">
                 <form action="{{ route('sales_history') }}" method="post" class="form-horizontal">
                     {{ csrf_field() }}
 
-                    <div class="form-group">
-                        <label for="from-date" class="col-xs-2 col-xs-offset-2 control-label">From:</label>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 
-                        <div class="col-xs-6">
-                            <input name="fromDate" type="date" id="from-date" class="form-control">
+                        <h4 class="modal-title text-center">Enter reporting period</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="from-date" class="col-xs-2 col-xs-offset-2 control-label">From:</label>
+
+                            <div class="col-xs-6">
+                                <input name="fromDate" type="date" id="from-date" class="form-control" required autofocus>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="to-date" class="col-xs-2 col-xs-offset-2 control-label" required>To:</label>
+
+                            <div class="col-xs-6">
+                                <input name="toDate" type="date"  id="to-date" class="form-control">
+                            </div>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="to-date" class="col-xs-2 col-xs-offset-2 control-label">To:</label>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary btn-sm">Get Sales</button>
 
-                        <div class="col-xs-6">
-                            <input name="toDate" type="date"  id="to-date" class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="col-xs-6 col-xs-offset-4">
-                        <button type="submit" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon"></span>&nbsp;Get Sales</button>
+                        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
-    <a href="{{ route('sales_index') }}" class="btn btn-success btn-sm" style="float: right;"><span class="glyphicon glyphicon-time"></span>&nbsp;Today</a>
-
-    <hr style="clear: both;">
 
     @if ($sales->isEmpty())
         <div class="alert alert-info text-center cc-info">
@@ -113,9 +117,11 @@
 
         <hr>
 
-        <div class="text-center">
-            <a href="{{ route('print_sales') }}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-print"></span>&nbsp;Print</a>
-        </div>
+        @if (request()->user()->hasPermission('publish'))
+            <div class="text-center">
+                <a href="{{ route('print_sales') }}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-print"></span>&nbsp;Print</a>
+            </div>
+        @endif
     @endif
 </div>
 @endsection

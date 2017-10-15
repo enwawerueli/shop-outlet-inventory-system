@@ -8,11 +8,9 @@ use App\Models\Product;
 use App\Models\Stock;
 use App\Models\Category;
 use App\Validators\Validator;
-use App\Notifications\Notification;
 
 class ProductController extends BaseController
 {
-    use Notification;
     /**
      * Display a listing of the resource.
      *
